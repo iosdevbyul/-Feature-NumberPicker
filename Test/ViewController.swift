@@ -76,7 +76,7 @@ class ViewController: UIViewController {
         mainTitleLabel.centerYAnchor.constraint(equalTo: scroller.centerYAnchor).isActive = true
         mainTitleLabel.widthAnchor.constraint(equalTo: scroller.widthAnchor).isActive = true
         mainTitleLabel.heightAnchor.constraint(equalTo: scroller.heightAnchor).isActive = true
-        mainTitleLabel.text = "32"
+        mainTitleLabel.text = ""
         mainTitleLabel.font = UIFont.systemFont(ofSize: 50, weight: .bold)
     }
     
@@ -94,7 +94,16 @@ class ViewController: UIViewController {
         
         scroller.center = CGPoint(x: scroller.center.x, y: scroller.center.y + translation.y)
         gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
-        mainTitleLabel.text = String(Int((scroller.center.y + translation.y) / 10))
+        let labelValue = Int((scroller.center.y + translation.y) / 10)
+        mainTitleLabel.text = String(labelValue)
+        
+        if labelValue >= 60 {
+            mainTitleLabel.textColor = .red
+        } else if labelValue <= 25 {
+            mainTitleLabel.textColor = .systemBlue
+        } else {
+            mainTitleLabel.textColor = .black
+        }
         
         let y: Int = Int(scrollerBackView.frame.origin.y / 50) + 1
         for i in 0..<3 {
