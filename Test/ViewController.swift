@@ -96,9 +96,16 @@ class ViewController: UIViewController {
         gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
         mainTitleLabel.text = String(Int((scroller.center.y + translation.y) / 10))
         
-        let y: Int = Int(scrollerBackView.frame.origin.y / 53)
+        let y: Int = Int(scrollerBackView.frame.origin.y / 50) + 1
         for i in 0..<3 {
-            UIView.animate(withDuration: 0.5) { [self] in
+            UIView.animate(withDuration: 2.0) { [self] in
+                if (y + i) >= numberOfMeasureLine {
+                    return
+                }
+                
+                if y <= -1 {
+                    return
+                }
                 trails[y + i].isActive = false
                 if i != 1 {
                     trails[y + i] = lines[y + i].trailingAnchor.constraint(equalTo: scrollerBackView.leadingAnchor, constant: -5)
@@ -149,7 +156,7 @@ class ViewController: UIViewController {
             if i == 0 {
                 line.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
             } else {
-                line.topAnchor.constraint(equalTo: lines[i-1].bottomAnchor, constant: 53).isActive = true
+                line.topAnchor.constraint(equalTo: lines[i-1].bottomAnchor, constant: 47).isActive = true
             }
 
             let trail: NSLayoutConstraint = line.trailingAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -10)
@@ -163,6 +170,7 @@ class ViewController: UIViewController {
             number.widthAnchor.constraint(equalToConstant: 40).isActive = true
             number.centerYAnchor.constraint(equalTo: line.centerYAnchor).isActive = true
             number.trailingAnchor.constraint(equalTo: line.leadingAnchor, constant: -10).isActive = true
+            number.text = String(i * 5)
             
             lines.append(line)
             trails.append(trail)
